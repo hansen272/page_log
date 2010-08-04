@@ -1,0 +1,44 @@
+PageLog
+=======
+  This plugin allows you to easily show the current page log information for your Ruby on Rails application
+
+Installation
+=============
+  script/plugin install git://github.com/hansen/pagelog.git
+
+Configuration
+=============
+  1.PageLog required some javascripts and stylesheets. For this you can use PageLog helper in your views
+    <head>
+      <title>...</title>
+      <%=pagelog_head %>
+    </head>
+
+  2. Now you can place Pagelog link anywhere on your page
+    <%=pagelog_link %>
+
+  3. The last step is put the log information show form.
+    <%=pagelog_showdiv%>
+
+Example
+=======
+    <!DOCTYPE html>
+      <html>
+        <head>
+          <title>...</title>
+          <%= pagelog_head %>
+        </head>
+
+        <body>
+          <%=pagelog_link%>
+            <div  id="Header">
+              your page contents...............
+            </div>
+          <%=pagelog_showdiv%>
+        </body>
+
+      </html>
+
+
+
+Copyright (c) 2010 Ironmine, released under the MIT license
