@@ -8,7 +8,7 @@ Installation
 
 Configuration
 =============
------layouts/application.html.erb---------------
+==layouts/application.html.erb
   1.PageLog required some javascripts and stylesheets. For this you can use PageLog helper in your views
     <head>
       <title>...</title>
@@ -21,11 +21,11 @@ Configuration
   3. The last step is put the log information show form.
     <%=pagelog_showdiv%>
 
------config/routes.rb---------------
+==config/routes.rb
   1. add following code to config/routes.rb
      match 'logs/show_log' => 'logs#show_log'
 
------application_controller.rb
+==application_controller.rb
   1. add the function to set session_id
 
      #session_id

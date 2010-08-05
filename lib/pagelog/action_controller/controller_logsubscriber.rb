@@ -44,8 +44,7 @@ module Pagelog
       # :path       => (request.fullpath rescue "unknown")
       # }
       #
-      def start_processing(event)
-        ssid = Logsession.cur_session_id
+      def start_processing(event)      
         payload = event.payload
         #if LogContent.get_var("#{Identity.cur_session_id}","redirect_to","0").nil? then
          #  LogContent.delete_var("#{Thread.current.to_s}")
