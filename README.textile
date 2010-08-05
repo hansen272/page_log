@@ -41,14 +41,14 @@ Example
     <!DOCTYPE html>
       <html>
         <head>
-          <title>...</title>
+          <title>....</title>
           <%= pagelog_head %>
         </head>
 
         <body>
           <%=pagelog_link%>
             <div  id="Header">
-              your page contents...............
+              your page contents.....
             </div>
           <%=pagelog_showdiv%>
         </body>
