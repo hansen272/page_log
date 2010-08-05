@@ -8,6 +8,7 @@ module Pagelog
         @@content
       end
 
+      #获取session
       #根据key1,key2获取当前的最大值，并将最大值加1
       def self.max_val(key1,key2)
         if @@content.is_a?(Hash) then

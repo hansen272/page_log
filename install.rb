@@ -1,5 +1,8 @@
 # Install hook code here
 require 'fileutils'
+puts "Copy started..."
+puts "Copy started..."
+puts "Copy started..."
 
 module Pagelog
   module InstallHelpers

@@ -1,5 +1,6 @@
 require 'rails'
 require 'pagelog/log_content'
+require 'active_record/log_subscriber'
 require 'active_support/core_ext/time/conversions'
 
 module Pagelog
@@ -41,24 +42,26 @@ module Pagelog
       # event.transaction_id
       # event.duration        sql执行时间
       def sql(event)
-        ssid = Identity.cur_session_id
+        ssid = Logsession.cur_session_id
+        
         if !ssid.nil? && Thread.current[:flag]!=2  then
-          i = LogContent.max_val("#{Identity.cur_session_id}","sql_id")
-          k = LogContent.get_var("#{Identity.cur_session_id}","redirect_to","0")
-         #p "#{Thread.current[:flag]} FFFF #{event.payload[:name]} FFF  #{Identity.cur_session_id} FF #{k}"
+          i = LogContent.max_val("#{ssid}","sql_id")
+          k = LogContent.get_var("#{ssid}","redirect_to","0")
+          info "#{Thread.current[:flag]} FFFF #{event.payload[:name]} FFF  #{ssid} FF #{k}"
 
           if Thread.current[:flag]==1  then
              if k.to_s != "1" then
-               LogContent.delete_var("#{Identity.cur_session_id}")
+               info "Record #{LogContent.content}"
+               LogContent.delete_var("#{ssid}")
              end
              Thread.current[:flag]=0
           else
-             LogContent.set_var("#{Identity.cur_session_id}","redirect_to","0","0")
+             LogContent.set_var("#{ssid}","redirect_to","0","0")
           end
 
-          LogContent.set_var("#{Identity.cur_session_id}","model","#{i}",event.payload[:name]);
-          LogContent.set_var("#{Identity.cur_session_id}","sqlvar","#{i}",event.payload[:sql]);
-          LogContent.set_var("#{Identity.cur_session_id}","sqltime","#{i}",'(%.1fms)' % event.duration);
+          LogContent.set_var("#{ssid}","model","#{i}",event.payload[:name]);
+          LogContent.set_var("#{ssid}","sqlvar","#{i}",event.payload[:sql]);
+          LogContent.set_var("#{ssid}","sqltime","#{i}",'(%.1fms)' % event.duration);
         end
       end
     end

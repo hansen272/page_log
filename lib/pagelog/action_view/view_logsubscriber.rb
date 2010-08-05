@@ -1,5 +1,6 @@
 require 'rails'
 require 'pagelog/log_content'
+require 'action_view/log_subscriber'
 require 'active_support/core_ext/time/conversions'
 
 module Pagelog
@@ -38,11 +39,28 @@ module Pagelog
       # :identifier 渲染路径文件
       # :layout     引用文件
       def  render_template(event)
-        i = LogContent.max_val("#{Identity.cur_session_id}","render_id")
-        LogContent.set_var("#{Identity.cur_session_id}","identifier","#{i}",from_rails_root(event.payload[:identifier]));
-        LogContent.set_var("#{Identity.cur_session_id}","rendertime","#{i}",event.duration);
-       # info LogContent.content.to_s
+        # info LogContent.content.to_s
+        ssid = Logsession.cur_session_id
+        #info "#{ssid}  render_template #{Thread.current[:flag]}"
+        if !ssid.nil? && Thread.current[:flag]!=2  then
+          i = LogContent.max_val("#{ssid}","render_id")
+          k = LogContent.get_var("#{ssid}","redirect_to","0")
+          #info "#{Thread.current[:flag]} FFFF #{event.payload[:name]} FFF  #{ssid} FF #{k}"
 
+          if Thread.current[:flag]==1  then
+             if k.to_s != "1" then
+               info "view delete"
+               LogContent.delete_var("#{ssid}")
+             end
+             Thread.current[:flag]=0
+          else
+             LogContent.set_var("#{ssid}","redirect_to","0","0")
+          end
+
+          LogContent.set_var("#{ssid}","identifier","#{i}",from_rails_root(event.payload[:identifier]));
+          LogContent.set_var("#{ssid}","rendertime","#{i}",event.duration);
+
+        end
       end
       alias :render_partial :render_template
       alias :render_collection :render_template

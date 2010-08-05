@@ -4,9 +4,11 @@ div.logs  table.logs {
     border-spacing:1;
    /*border:1px solid #CCCCCC;*/
    /* height: 500px;*/
-    margin-left: 40px;
+    margin-left: 32px;
     padding:0;
-    width:80%;
+    width:66%;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 
@@ -20,13 +22,14 @@ div.logs table.logs th{
     padding:5px;
     text-align:left;
     border:1px solid #CCCCCC;
+    width:66%;
 }
 
 table.logs td {
    /* border:1px solid #CCCCCC;*/
     padding:4px 3px;
     vertical-align:top;
-    width:50%;
+
 }
 
 
@@ -46,4 +49,5 @@ div.logs table.sublogs td {
     padding:4px 3px;
     vertical-align:top;
     font-size:11px;
+    width:66%;
 }

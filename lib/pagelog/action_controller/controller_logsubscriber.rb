@@ -45,7 +45,7 @@ module Pagelog
       # }
       #
       def start_processing(event)
-       
+        ssid = Logsession.cur_session_id
         payload = event.payload
         #if LogContent.get_var("#{Identity.cur_session_id}","redirect_to","0").nil? then
          #  LogContent.delete_var("#{Thread.current.to_s}")
@@ -65,6 +65,7 @@ module Pagelog
       # 可以提取的参数除开event，还包括:
       # payload[:status]  浏览器返回状态
       def process_action(event)
+        ssid = Logsession.cur_session_id
         payload = event.payload
         additions = ActionController::Base.log_process_action(payload)
 
@@ -75,12 +76,12 @@ module Pagelog
           tmp_msg = "(%.0fms)" % event.duration
         end
         #当前对应的指针
-        i = LogContent.max_val("#{Identity.cur_session_id}","action_id")
+        i = LogContent.max_val("#{ssid}","action_id")
 
         #将controller的数据在当前action执行完成时整理到Completed事件对应的位置中
-        LogContent.replace_key1("#{Thread.current.to_s}","#{Identity.cur_session_id}","#{i}")
-        LogContent.set_var("#{Identity.cur_session_id}","status","#{i}","#{Rack::Utils::HTTP_STATUS_CODES[payload[:status]]}");
-        LogContent.set_var("#{Identity.cur_session_id}","message","#{i}",tmp_msg);
+        LogContent.replace_key1("#{Thread.current.to_s}","#{ssid}","#{i}")
+        LogContent.set_var("#{ssid}","status","#{i}","#{Rack::Utils::HTTP_STATUS_CODES[payload[:status]]}");
+        LogContent.set_var("#{ssid}","message","#{i}",tmp_msg);
 
         #p LogContent.content
         
@@ -97,7 +98,7 @@ module Pagelog
       # payload[:location]  转向地址
       def redirect_to(event)
         
-        LogContent.set_var("#{Identity.cur_session_id}","redirect_to","0","1")
+        LogContent.set_var("#{Logsession.cur_session_id}","redirect_to","0","1")
 
       end
 
