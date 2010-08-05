@@ -1,13 +1,14 @@
 PageLog
 =======
   This plugin allows you to easily show the current page log information for your Ruby on Rails application
-
+  NOTE: This plugin need  jquery  support.
 Installation
 =============
   script/plugin install git://github.com/hansen/pagelog.git
 
 Configuration
 =============
+-----layouts/application.html.erb---------------
   1.PageLog required some javascripts and stylesheets. For this you can use PageLog helper in your views
     <head>
       <title>...</title>
@@ -19,6 +20,21 @@ Configuration
 
   3. The last step is put the log information show form.
     <%=pagelog_showdiv%>
+
+-----config/routes.rb---------------
+  1. add following code to config/routes.rb
+     match 'logs/show_log' => 'logs#show_log'
+
+-----application_controller.rb
+  1. add the function to set session_id
+
+     #session_id
+     def pagelog_session
+         Logsession.cur_session_id =request.session_options[:id]
+     end
+
+  2. add the  :pagelog_session to before_filter
+     before_filter :pagelog_session
 
 Example
 =======
