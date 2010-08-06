@@ -4,7 +4,7 @@ PageLog
   NOTE: This plugin need  jquery  support.
 Installation
 =============
-  script/plugin install git://github.com/hansen/pagelog.git
+  rails plugin install git://github.com/hansen/page_log.git
 
 Configuration
 =============
@@ -48,7 +48,7 @@ Example
             </div>
           <%=pagelog_showdiv%>
         </body>
-
+        
       </html>
 
 
