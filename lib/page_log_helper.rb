@@ -2,7 +2,7 @@ require 'pagelog/log_content'
 module Pagelog
   module LogHelper
     
-    #引用css
+    #引用css和js
     def pagelog_head()
 
       html = stylesheet_link_tag('pagelog')+javascript_include_tag('pagelog')      

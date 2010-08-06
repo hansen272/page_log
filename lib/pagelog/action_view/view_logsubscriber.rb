@@ -40,30 +40,39 @@ module Pagelog
       # :layout     引用文件
       def  render_template(event)
         # info LogContent.content.to_s
+        #获取session_id
         ssid = Logsession.cur_session_id
         #info "#{ssid}  render_template #{Thread.current[:flag]}"
+        #这里的逻辑验证时为:如果ssid不为空并且不是有显示监控页面触发的就进行下面的逻辑，否则不执行
         if !ssid.nil? && Thread.current[:flag]!=2  then
+          #获取render指针值
           i = LogContent.max_val("#{ssid}","render_id")
+          #获取Redirect to开关值，该值在ControllerLogSubscriber的redirect_to方法实现
           k = LogContent.get_var("#{ssid}","redirect_to","0")
           #info "#{Thread.current[:flag]} FFFF #{event.payload[:name]} FFF  #{ssid} FF #{k}"
 
+          #如果是新打开页面页面
           if Thread.current[:flag]==1  then
+             #如果不是redirect 痛进入的则删除hash中的数据
              if k.to_s != "1" then
-               info "view delete"
+               #info "view delete"
                LogContent.delete_var("#{ssid}")
              end
+             #将新页面标示置为0
              Thread.current[:flag]=0
           else
+             #将redirect标示置为0
              LogContent.set_var("#{ssid}","redirect_to","0","0")
           end
 
+          #存储render信息， identifier为路径，rendertime为时间
           LogContent.set_var("#{ssid}","identifier","#{i}",from_rails_root(event.payload[:identifier]));
           LogContent.set_var("#{ssid}","rendertime","#{i}",event.duration);
-
         end
       end
       alias :render_partial :render_template
       alias :render_collection :render_template
+
       protected
         def from_rails_root(string)
           string.sub("#{Rails.root}/", "").sub(/^app\/views\//, "")

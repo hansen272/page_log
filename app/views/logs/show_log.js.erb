@@ -1,4 +1,7 @@
 //alert("OKKK")
+//显示监控信息
 $('#log_content').html('<%=escape_javascript(log_output)%>');
+//将当前光标定位到监控信息
 window.location.href=window.location.href + "#log_content";
+//移除link按钮，多次显示浪费系统资源
 $('#log_link').remove();
