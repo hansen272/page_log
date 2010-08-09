@@ -6,6 +6,10 @@ Installation
 =============
   rails plugin install git://github.com/hansen/page_log.git
 
+copy file
+=============
+  rake page_log:setup
+  
 Configuration
 =============
 ==application_controller.rb
